@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.dev/
+.venv/
+*.db
+*.db-wal
+*.db-shm
+vapid_private.pem
+demo-data/
+lock.key
+lock.key.tmp
+core.config_entries

@@ -1,0 +1,13 @@
+# Tested with these versions (Python 3.11+)
+fastapi~=0.143.2
+uvicorn[standard]~=0.54.0
+yalexs-ble~=7.2.1
+yalexs~=9.2.13
+bleak~=3.0.2
+aiohttp~=3.14.5
+aiomqtt~=2.5.1
+pywebpush~=2.5.0
+py-vapid~=1.9.6
+pyotp~=2.10.0
+segno~=1.6.6
+PyJWT[crypto]~=2.15.1

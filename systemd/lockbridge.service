@@ -1,0 +1,37 @@
+[Unit]
+Description=LockBridge – local bridge for your Yale lock
+After=network-online.target bluetooth.service
+Wants=network-online.target bluetooth.service
+
+[Service]
+Type=simple
+User=lockbridge
+Group=lockbridge
+SupplementaryGroups=bluetooth
+WorkingDirectory=/opt/lockbridge/app
+Environment=LB_DATA_DIR=/var/lib/lockbridge
+Environment=LB_PORT=8080
+EnvironmentFile=-/etc/lockbridge.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/lockbridge/venv/bin/python -m lockbridge
+Restart=always
+RestartSec=5
+# Bluetooth/BlueZ can block on shutdown; don't wait the default 90 s
+TimeoutStopSec=20
+
+# Hardening
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/lockbridge
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK AF_BLUETOOTH
+RestrictSUIDSGID=yes
+LockPersonality=yes
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

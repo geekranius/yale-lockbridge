@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Compile Python
+        run: python -m compileall -q lockbridge
+
+      - name: Shell syntax
+        run: bash -n install.sh
+
+      - name: JavaScript syntax
+        run: |
+          node --check lockbridge/static/app.js
+          node --check lockbridge/static/sw.js
+
+      - name: Manifest is valid JSON
+        run: python -c "import json;json.load(open('lockbridge/static/manifest.webmanifest'))"
+
+      - name: Import the app (smoke test)
+        run: python -c "import lockbridge.web"
+        env:
+          LB_DATA_DIR: /tmp/lockbridge-ci
+          LB_DEMO: "1"
