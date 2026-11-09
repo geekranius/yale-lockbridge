@@ -35,6 +35,28 @@ No vendor cloud is used at runtime. No account, no subscription, no third-party 
 
 ---
 
+## Screenshots
+
+| | |
+|---|---|
+| <img src="docs/screenshots/home.png" width="430" alt="Home screen"> | <img src="docs/screenshots/log.png" width="430" alt="Activity log"> |
+| **Home** — lock state, door, battery, Bluetooth signal and the last event. Unlock requires holding the button. | **Activity log** — who opened the door and when, with filters, a 7-day chart and CSV export. |
+| <img src="docs/screenshots/lock-setup.png" width="430" alt="Lock setup"> | <img src="docs/screenshots/integrations.png" width="430" alt="Integrations"> |
+| **Guided lock setup** — find the lock over Bluetooth, then fetch the offline key from Home Assistant, the vendor cloud, or enter it manually. | **Integrations** — Home Assistant over MQTT (with auto-discovery), local Alexa, IKEA DIRIGERA, ntfy, Telegram and API tokens. |
+| <img src="docs/screenshots/automations.png" width="430" alt="Automations"> | <img src="docs/screenshots/users.png" width="430" alt="Users and roles"> |
+| **Automations** — auto-lock, night lock, "door left open" warnings, lights, webhooks and MQTT, from ready-made templates. | **Users and roles** — admins, users and time-limited guests; 2FA is mandatory for everyone. |
+| <img src="docs/screenshots/account.png" width="430" alt="My account"> | <img src="docs/screenshots/settings.png" width="430" alt="Settings"> |
+| **My account** — install the PWA, choose which events trigger push notifications, change password. | **Settings** — everything in one place, including system settings and encrypted-at-rest backups. |
+
+## How it works
+
+1. **Pair once.** The wizard finds the lock over Bluetooth and fetches its offline key from your Yale account (through Home Assistant). From then on the key stays on the Pi.
+2. **The Pi talks BLE.** It keeps a low-power scan running and opens an encrypted connection to the lock only when it needs to read the state or send a command.
+3. **You use the phone.** The web app is a PWA: it installs to the home screen, keeps a live connection to the Pi and receives push notifications.
+4. **Everything stays local.** Commands never leave your network unless you enable remote access, and then only through your own Cloudflare Tunnel with Access in front.
+
+---
+
 ## Supported locks
 
 LockBridge uses [`yalexs-ble`](https://github.com/bdraco/yalexs-ble), the same library as Home Assistant's *Yale Access Bluetooth* integration. If your lock works with that integration, it works here.
